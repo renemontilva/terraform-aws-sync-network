@@ -1,0 +1,5 @@
+terraform.tfplan
+terraform.tfstate
+*.DS_Store
+.*.swp
+.vscode

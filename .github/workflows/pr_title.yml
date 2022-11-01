@@ -1,0 +1,39 @@
+---
+# Documentation: https://github.com/amannn/action-semantic-pull-request
+name: "Lint PR"
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  main:
+    name: "Validate PR Title"
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: amannn/action-semantic-pull-request@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_BACKUP_TOKEN }}
+        with:
+          types: |
+            fix
+            feat
+            refactor
+            docs
+            test
+            perf
+            chore
+            style
+            ci
+            build
+          requireScope: true
+          subjectPattern: ^[A-Z].+$
+          subjectPatternError: |
+            The subject "{subject}" found in the pull request title "{title}"
+            didn't match the configured pattern. Please ensure that the subject
+            starts with an uppercase character.
+          wip: true
+          validateSingleCommit: false
+          headerPattern: '^(\w*)(?:\(([\w$.\-*/ ]*)\))?: (.*)$'
+          headerPatternCorrespondence: type, scope, subject
